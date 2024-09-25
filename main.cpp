@@ -19,7 +19,7 @@ void readStartTargetWords(const std::string &inputFileName, std::vector<std::tup
 
     std::string start, target;
     while( pairStream >> start && pairStream >> target ) {
-	startTargetVector.push_back(std::make_tuple(start, target));	
+	startTargetVector.emplace_back(start, target);
     }
 }
 
@@ -50,13 +50,13 @@ int main(int argc, char *argv[]) { // the main function.
 
     std::vector<std::string> dictionary;
     readWords(wordStream, dictionary);
-    for( auto word: dictionary )
+    for( const auto& word: dictionary )
 	std::cout << word << std::endl;
-    
+/*
     std::vector<std::tuple<std::string, std::string>> startTargetVector;
     readStartTargetWords( argv[2], startTargetVector );
-    for( auto [start, target]: startTargetVector )
+    for( const auto& [start, target]: startTargetVector )
 	std::cout << start << " " << target << std::endl;
-
+*/
     return 0;
 }
