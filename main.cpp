@@ -7,7 +7,7 @@
 #include<vector>
 #include<string>
 #include<tuple>
-
+/*
 void readStartTargetWords(const std::string &inputFileName, std::vector<std::tuple<std::string, std::string>> &startTargetVector ) {
     std::ifstream pairStream;
     pairStream.open(inputFileName, std::ios_base::in);
@@ -22,15 +22,23 @@ void readStartTargetWords(const std::string &inputFileName, std::vector<std::tup
 	startTargetVector.emplace_back(start, target);
     }
 }
+*/
+
+#include "Vertex.hpp"
+#include "adjList.hpp"
 
 
-void readWords(std::fstream &inStream, std::vector<std::string> & words) {
+
+void readWords(std::fstream &inStream, std::vector<std::string> & words, adjList &adjList) {
     // inStream is an open stream. This function reads a series of words 
     // from the stream and stores them in "words".
 
     std::string word;
-    while( inStream >> word )
-	words.push_back(word);
+    while( inStream >> word ) {
+        Vertex vertex(word);
+        adjList.addVertex(vertex);
+        //words.push_back(word);
+    }
 }
 
 
@@ -48,10 +56,12 @@ int main(int argc, char *argv[]) { // the main function.
     }
     std::cout << "Successfully opened " << argv[1] << std::endl;
 
+    adjList adjacencyList;
     std::vector<std::string> dictionary;
-    readWords(wordStream, dictionary);
-    for( const auto& word: dictionary )
-	std::cout << word << std::endl;
+    readWords(wordStream, dictionary, adjacencyList);
+
+    adjacencyList.printGraph();
+
 /*
     std::vector<std::tuple<std::string, std::string>> startTargetVector;
     readStartTargetWords( argv[2], startTargetVector );
