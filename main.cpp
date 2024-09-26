@@ -26,10 +26,7 @@ void readStartTargetWords(const std::string &inputFileName, std::vector<std::tup
 
 #include "Vertex.hpp"
 #include "adjList.hpp"
-
-
-
-void readWords(std::fstream &inStream, std::vector<std::string> & words, adjList &adjList) {
+void readWords(std::fstream &inStream, adjList &adjList) {
     // inStream is an open stream. This function reads a series of words 
     // from the stream and stores them in "words".
 
@@ -37,7 +34,14 @@ void readWords(std::fstream &inStream, std::vector<std::string> & words, adjList
     while( inStream >> word ) {
         Vertex vertex(word);
         adjList.addVertex(vertex);
-        //words.push_back(word);
+    }
+
+    for (int i = 0; i < adjList.size(); ++i) {
+        for (int j = i + 1; j < adjList.size(); ++j) {
+            if (adjList.areWordsAdjacent(adjList.getVertexWord(i), adjList.getVertexWord(j))) {
+                adjList.addEdge(i, j);
+            }
+        }
     }
 }
 
@@ -58,8 +62,7 @@ int main(int argc, char *argv[]) { // the main function.
 
     adjList adjacencyList;
     std::vector<std::string> dictionary;
-    readWords(wordStream, dictionary, adjacencyList);
-
+    readWords(wordStream, adjacencyList);
     adjacencyList.printGraph();
 
 /*

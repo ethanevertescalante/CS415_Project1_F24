@@ -11,15 +11,17 @@
 
 class adjList {
     private:
-        std::vector<Vertex> vertices; //vector of vertices
         std::vector< std::vector<int> > adjList;
+        std::vector<Vertex> vertices;
 
     public:
         int addVertex(const Vertex& vertex);
         void addEdge(int v1, int v2);
+        std::string getVertexWord(int index) const;
         void printGraph() const;
 
-
+        int size() const;
+        bool areWordsAdjacent(const std::string &word1, const std::string &word2);
 
 };
 
