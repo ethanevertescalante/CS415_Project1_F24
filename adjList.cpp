@@ -98,48 +98,41 @@ bool adjList::dfs(int current, int target, std::vector<std::string>& path) {
     return false;
 }
 
-int adjList::findLongestShortestLadder() {
-    int maxLadderLength = 0;
 
-    for (int i = 0; i < vertices.size(); ++i) {
-        for (int j = i + 1; j < vertices.size(); ++j) {
-            std::vector<int> path = bfs(i, j);
-            if (!path.empty()) {
-                maxLadderLength = std::max(maxLadderLength, (int)path.size());
-            }
-        }
-    }
-
-    return maxLadderLength - 1;  // Subtract 1 because ladder length is path size - 1
-}
-
-
-std::vector<int> adjList::bfs(int start, int target) {
+bool adjList::bfs(int start, int target, std::vector<std::string>& path) {
     resetVertices();  // Ensure the vertices are reset before BFS
-    std::queue<std::vector<int>> q;
+    std::queue<std::vector<int>> q;  // Queue to store paths as indices
 
-    q.push({start});
+    q.push({start});  // Start BFS from the 'start' index
     vertices[start].hadVisited = true;
 
     while (!q.empty()) {
-        std::vector<int> path = q.front();
+        std::vector<int> currentPath = q.front();  // Get the current path (in terms of indices)
         q.pop();
 
-        int last = path.back();
+        int last = currentPath.back();  // Get the last vertex in the current path
 
-        if (last == target) return path;    // Return path if we reach the target
+        // If we reach the target vertex, convert path from indices to words and return true
+        if (last == target) {
+            path.clear();  // Ensure the path is cleared before populating it
+            for (int idx : currentPath) {
+                path.push_back(vertices[idx].word);  // Convert indices to words
+            }
+            return true;
+        }
 
+        // Explore all neighboring vertices of 'last'
         for (int neighbor : adjList[last]) {
             if (!vertices[neighbor].hadVisited) {
                 vertices[neighbor].hadVisited = true;
-                std::vector<int> newPath = path;
-                newPath.push_back(neighbor);  // Extend the path
-                q.push(newPath);
+                std::vector<int> newPath = currentPath;
+                newPath.push_back(neighbor);  // Extend the current path by adding the neighbor
+                q.push(newPath);  // Push the new path into the queue
             }
         }
     }
 
-    return {}; // Return empty path if no path found
+    return false; // Return false if no path found
 }
 
 

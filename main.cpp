@@ -66,10 +66,10 @@ int main(int argc, char *argv[]) { // the main function.
 
     readWords(wordStream, adjacencyList);
 
-    adjacencyList.printGraph();
+    //adjacencyList.printGraph();
     std::cout << std::endl;
 
-    adjacencyList.findConnectedComponents();
+    //adjacencyList.findConnectedComponents();
 
     adjacencyList.resetVertices();
 
@@ -85,6 +85,7 @@ int main(int argc, char *argv[]) { // the main function.
 
         int startIdx = -1, targetIdx = -1;
 
+        //assuming that the start and target words ARE in the dictionary
         // Find indices for the start and target words in the adjacency list
         for (int i = 0; i < adjacencyList.size(); ++i) {
             if (adjacencyList.getVertexWord(i) == start) startIdx = i;
@@ -93,7 +94,7 @@ int main(int argc, char *argv[]) { // the main function.
 
 
         std::vector<std::string> path;
-
+        /*
         if (adjacencyList.dfs(startIdx, targetIdx, path)) {
             std::cout << "The ladder between words " << start << " and " << target << " is: " << std::endl;
             for (const auto& word : path) {
@@ -103,6 +104,18 @@ int main(int argc, char *argv[]) { // the main function.
         } else {
             std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
         }
+
+         */
+        if (adjacencyList.bfs(startIdx, targetIdx, path)) {
+            std::cout << "The ladder between words " << start << " and " << target << " is: " << std::endl;
+            for (const auto& word : path) {
+                std::cout << word << std::endl;
+            }
+            //std::cout << target << std::endl;
+        } else {
+            std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
+        }
+
 
         //TODO:: BFS shortest path algo
         //TODO:: longest of the shortest ladders in dictionary

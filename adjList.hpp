@@ -28,8 +28,7 @@ class adjList {
         bool dfs(int current, int target, std::vector<std::string>& path);
         void printDFSPath();
         void resetVertices();
-
-        std::vector<int> bfs(int start, int target);
+        bool bfs(int start, int target, std::vector<std::string>& path);
         int findLongestShortestLadder();
         int dfsCollectComponentWords(int v, std::vector<bool>& visited, std::vector<std::string>& componentWords);
 };
