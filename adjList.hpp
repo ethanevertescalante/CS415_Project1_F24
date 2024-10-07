@@ -7,14 +7,16 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 #include "Vertex.hpp"
 
 class adjList {
     private:
         std::vector< std::vector<int> > adjList;
-        std::vector<Vertex> vertices;
+
 
     public:
+        std::vector<Vertex> vertices;
         int addVertex(const Vertex& vertex);
         void addEdge(int v1, int v2);
         std::string getVertexWord(int index) const;
@@ -22,7 +24,14 @@ class adjList {
 
         int size() const;
         bool areWordsAdjacent(const std::string &word1, const std::string &word2);
+        void findConnectedComponents();
+        bool dfs(int current, int target, std::vector<std::string>& path);
+        void printDFSPath();
+        void resetVertices();
 
+        std::vector<int> bfs(int start, int target);
+        int findLongestShortestLadder();
+        int dfsCollectComponentWords(int v, std::vector<bool>& visited, std::vector<std::string>& componentWords);
 };
 
 

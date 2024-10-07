@@ -2,4 +2,3 @@ fate kate
 cell fate
 lake fate
 wall cell
-made rate

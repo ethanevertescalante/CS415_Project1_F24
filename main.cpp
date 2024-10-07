@@ -7,8 +7,8 @@
 #include<vector>
 #include<string>
 #include<tuple>
-/*
-void readStartTargetWords(const std::string &inputFileName, std::vector<std::tuple<std::string, std::string>> &startTargetVector ) {
+
+void readStartTargetWords(const std::string &inputFileName, std::vector<std::pair<std::string, std::string>> &startTargetVector ) {
     std::ifstream pairStream;
     pairStream.open(inputFileName, std::ios_base::in);
     if( ! pairStream.is_open()) {
@@ -22,7 +22,7 @@ void readStartTargetWords(const std::string &inputFileName, std::vector<std::tup
 	startTargetVector.emplace_back(start, target);
     }
 }
-*/
+
 
 #include "Vertex.hpp"
 #include "adjList.hpp"
@@ -46,6 +46,7 @@ void readWords(std::fstream &inStream, adjList &adjList) {
 }
 
 
+
 int main(int argc, char *argv[]) { // the main function.
     if( argc != 3 ) {
         std::cout << "usage: " << argv[0] << " inputFileNameThatContainsDictionary inputFileNameThatContainsPairsOfWords\n";
@@ -62,14 +63,60 @@ int main(int argc, char *argv[]) { // the main function.
 
     adjList adjacencyList;
     std::vector<std::string> dictionary;
-    readWords(wordStream, adjacencyList);
-    adjacencyList.printGraph();
 
-/*
-    std::vector<std::tuple<std::string, std::string>> startTargetVector;
+    readWords(wordStream, adjacencyList);
+
+    adjacencyList.printGraph();
+    std::cout << std::endl;
+
+    adjacencyList.findConnectedComponents();
+
+    adjacencyList.resetVertices();
+
+
+    std::vector<std::pair<std::string, std::string>> startTargetVector;
     readStartTargetWords( argv[2], startTargetVector );
-    for( const auto& [start, target]: startTargetVector )
-	std::cout << start << " " << target << std::endl;
-*/
+
+
+
+    for( const auto& pair : startTargetVector ) {
+         std::string start = pair.first;
+         std::string target = pair.second;
+
+        int startIdx = -1, targetIdx = -1;
+
+        // Find indices for the start and target words in the adjacency list
+        for (int i = 0; i < adjacencyList.size(); ++i) {
+            if (adjacencyList.getVertexWord(i) == start) startIdx = i;
+            if (adjacencyList.getVertexWord(i) == target) targetIdx = i;
+        }
+
+
+        std::vector<std::string> path;
+
+        if (adjacencyList.dfs(startIdx, targetIdx, path)) {
+            std::cout << "The ladder between words " << start << " and " << target << " is: " << std::endl;
+            for (const auto& word : path) {
+                std::cout << word << std::endl;
+            }
+            std::cout << target << std::endl;
+        } else {
+            std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
+        }
+
+        //TODO:: BFS shortest path algo
+        //TODO:: longest of the shortest ladders in dictionary
+
+        // Reset the vertices' visited status and path markers for the next pair
+        adjacencyList.resetVertices();
+
+
+
+
+
+    }
+
+
+
     return 0;
 }
