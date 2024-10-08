@@ -55,18 +55,6 @@ void adjList:: resetVertices() {
 }
 
 
-void adjList::printDFSPath() {
-    std::cout << "DFS Path: ";
-    for (int i = 0; i < vertices.size(); ++i) {
-        if (vertices[i].onPath) {  // Check if the vertex is on the path
-            std::cout << vertices[i].word << " ";  // Print the word
-        }
-    }
-    std::cout << std::endl;
-}
-
-
-
 bool adjList::dfs(int current, int target, std::vector<std::string>& path) {
     //assuming that current and target are NOT the same
 
@@ -100,41 +88,101 @@ bool adjList::dfs(int current, int target, std::vector<std::string>& path) {
 
 
 bool adjList::bfs(int start, int target, std::vector<std::string>& path) {
-    resetVertices();  // Ensure the vertices are reset before BFS
-    std::queue<std::vector<int>> q;  // Queue to store paths as indices
+    resetVertices();
+    std::queue<std::vector<int>> q;
 
-    q.push({start});  // Start BFS from the 'start' index
+    q.push({start});
     vertices[start].hadVisited = true;
 
     while (!q.empty()) {
-        std::vector<int> currentPath = q.front();  // Get the current path (in terms of indices)
+        std::vector<int> currentPath = q.front();
         q.pop();
 
-        int last = currentPath.back();  // Get the last vertex in the current path
+        int last = currentPath.back();
 
-        // If we reach the target vertex, convert path from indices to words and return true
         if (last == target) {
-            path.clear();  // Ensure the path is cleared before populating it
+            path.clear();
             for (int idx : currentPath) {
-                path.push_back(vertices[idx].word);  // Convert indices to words
+                path.push_back(vertices[idx].word);
             }
             return true;
         }
 
-        // Explore all neighboring vertices of 'last'
+
         for (int neighbor : adjList[last]) {
             if (!vertices[neighbor].hadVisited) {
                 vertices[neighbor].hadVisited = true;
                 std::vector<int> newPath = currentPath;
-                newPath.push_back(neighbor);  // Extend the current path by adding the neighbor
-                q.push(newPath);  // Push the new path into the queue
+                newPath.push_back(neighbor);
+                q.push(newPath);
             }
         }
     }
 
-    return false; // Return false if no path found
+    return false;
 }
 
+std::pair<std::vector<int>, std::vector<int>> adjList::getDistancesAndParents(int start) {
+    std::vector<int> distances(vertices.size(), -1);
+    std::vector<int> parents(vertices.size(), -1);
+    std::queue<int> queue;
+
+    queue.push(start);
+    distances[start] = 0;
+
+    while (!queue.empty()) {
+        int front = queue.front();
+        queue.pop();
+        for (int adjacent : adjList[front]) {
+            if (distances[adjacent] == -1) {
+                parents[adjacent] = front;
+                distances[adjacent] = distances[front] + 1;
+                queue.push(adjacent);
+            }
+        }
+    }
+
+    return {distances, parents};
+}
+
+// Function to find and return the longest ladder in the dictionary
+void adjList::findAndPrintLongestLadder() {
+    std::vector<std::string> longestLadder;
+    int longestLength = 0;
+
+    for (int i = 0; i < vertices.size(); ++i) {
+        std::pair<std::vector<int>, std::vector<int>> result = getDistancesAndParents(i);
+        std::vector<int> distances = result.first;
+        std::vector<int> parents = result.second;
+
+        int maxDistance = 0;
+        int furthestVertex = i;
+
+        for (int j = 0; j < distances.size(); ++j) {
+            if (distances[j] > maxDistance) {
+                maxDistance = distances[j];
+                furthestVertex = j;
+            }
+        }
+
+        std::vector<std::string> ladder;
+        int v = furthestVertex;
+        while (v != -1) {
+            ladder.insert(ladder.begin(), vertices[v].word);
+            v = parents[v];
+        }
+
+        if (ladder.size() > longestLadder.size()) {
+            longestLadder = ladder;
+        }
+    }
+
+    std::cout << "The longest ladder has " << longestLadder.size() << " words:\n";
+    for (const std::string& word : longestLadder) {
+        std::cout << word << std::endl;
+    }
+
+}
 
 
 
@@ -169,12 +217,6 @@ void adjList::findConnectedComponents() {
             // Explore the component and collect its words
             dfsCollectComponentWords(i, visited, componentWords);
 
-            // Print the words of this component
-            std::cout << "Component " << numComponents << " has " << componentWords.size() << " words: ";
-            for (const std::string& word : componentWords) {
-                std::cout << word << " ";
-            }
-            std::cout << std::endl;
         }
     }
 

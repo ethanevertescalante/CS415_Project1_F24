@@ -116,11 +116,9 @@ int main(int argc, char *argv[]) { // the main function.
             std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
         }
 
-
-        //TODO:: BFS shortest path algo
         //TODO:: longest of the shortest ladders in dictionary
 
-        // Reset the vertices' visited status and path markers for the next pair
+
         adjacencyList.resetVertices();
 
 
@@ -129,6 +127,7 @@ int main(int argc, char *argv[]) { // the main function.
 
     }
 
+    adjacencyList.findAndPrintLongestLadder();
 
 
     return 0;

@@ -26,10 +26,10 @@ class adjList {
         bool areWordsAdjacent(const std::string &word1, const std::string &word2);
         void findConnectedComponents();
         bool dfs(int current, int target, std::vector<std::string>& path);
-        void printDFSPath();
         void resetVertices();
+        void findAndPrintLongestLadder();
         bool bfs(int start, int target, std::vector<std::string>& path);
-        int findLongestShortestLadder();
+        std::pair<std::vector<int>, std::vector<int>> getDistancesAndParents(int start);
         int dfsCollectComponentWords(int v, std::vector<bool>& visited, std::vector<std::string>& componentWords);
 };
 
