@@ -22,7 +22,6 @@ class adjList {
         void addEdge(int v1, int v2);
         std::string getVertexWord(int index) const;
         void printGraph() const;
-
         int size() const;
         bool areWordsAdjacent(const std::string &word1, const std::string &word2);
         void findConnectedComponents();

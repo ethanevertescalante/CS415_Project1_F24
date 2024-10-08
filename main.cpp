@@ -7,6 +7,8 @@
 #include<vector>
 #include<string>
 #include<tuple>
+#include "Vertex.hpp"
+#include "adjList.hpp"
 
 void readStartTargetWords(const std::string &inputFileName, std::vector<std::pair<std::string, std::string>> &startTargetVector ) {
     std::ifstream pairStream;
@@ -24,8 +26,6 @@ void readStartTargetWords(const std::string &inputFileName, std::vector<std::pai
 }
 
 
-#include "Vertex.hpp"
-#include "adjList.hpp"
 void readWords(std::fstream &inStream, adjList &adjList) {
     // inStream is an open stream. This function reads a series of words 
     // from the stream and stores them in "words".
@@ -64,21 +64,16 @@ int main(int argc, char *argv[]) { // the main function.
     adjList adjacencyList;
     std::vector<std::string> dictionary;
 
-    readWords(wordStream, adjacencyList);
+    readWords(wordStream, adjacencyList); //create vertices and add vertex to adjlist
 
     //adjacencyList.printGraph();
-    std::cout << std::endl;
 
     adjacencyList.findConnectedComponents();
 
-    adjacencyList.resetVertices();
-
+    adjacencyList.resetVertices(); //reset on path and visited
 
     std::vector<std::pair<std::string, std::string>> startTargetVector;
     readStartTargetWords( argv[2], startTargetVector );
-
-
-
     for( const auto& pair : startTargetVector ) {
          std::string start = pair.first;
          std::string target = pair.second;
@@ -92,8 +87,11 @@ int main(int argc, char *argv[]) { // the main function.
             if (adjacencyList.getVertexWord(i) == target) targetIdx = i;
         }
 
-
         std::vector<std::string> path;
+
+        if(startIdx == -1 && targetIdx == -1){
+            std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
+        }
 
         if (adjacencyList.dfs(startIdx, targetIdx, path)) {
             std::string dfsFileTemp = start + "_" + target +"_" + "dfs";
@@ -103,10 +101,10 @@ int main(int argc, char *argv[]) { // the main function.
                 dfsFile << word << std::endl;
             }
             dfsFile << target << std::endl;
-        } else {
-            std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
         }
 
+        // have to do this b/c auto_flat_bfs (any pair not with the same starting letters) fails if the verticies are not reset to normal
+        adjacencyList.resetVertices();
 
         if (adjacencyList.bfs(startIdx, targetIdx, path)) {
             std::string bfsFileTemp = start + "_" + target +"_" + "bfs";
@@ -115,12 +113,10 @@ int main(int argc, char *argv[]) { // the main function.
             for (const auto& word : path) {
                 bfsFile << word << std::endl;
             }
-            //std::cout << target << std::endl;
-        } else {
-            std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
         }
 
-        adjacencyList.resetVertices();
+        //reset for next DFS, makes gawk_geek_dfs not show up!
+        adjacencyList.resetVertices(); //reset onPath and visited
 
     }
 

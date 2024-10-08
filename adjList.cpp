@@ -4,7 +4,6 @@
 
 #include "adjList.hpp"
 
-
 bool adjList::areWordsAdjacent(const std::string &word1, const std::string &word2) {
     int differenceCount = 0;
     for (int i = 0; i < word1.length(); ++i) {
@@ -19,7 +18,7 @@ bool adjList::areWordsAdjacent(const std::string &word1, const std::string &word
 }
 
 std::string adjList::getVertexWord(int index) const {
-    return vertices[index].word;  // Return the word at the given vertex index
+    return vertices[index].word;
 }
 
 
@@ -57,7 +56,6 @@ void adjList:: resetVertices() {
 
 bool adjList::dfs(int current, int target, std::vector<std::string>& path) {
     //assuming that current and target are NOT the same
-
     path.push_back(vertices[current].word);
 
     vertices[current].hadVisited = true;
@@ -66,16 +64,15 @@ bool adjList::dfs(int current, int target, std::vector<std::string>& path) {
     for (int neighbor : adjList[current]) {
         if (!vertices[neighbor].hadVisited) {
 
-
             if (neighbor == target) {
-                vertices[neighbor].onPath = true;  // Mark the target on the path
-                return true;  // Path found, return true
+                vertices[neighbor].onPath = true;
+                return true;  // Path found
             }
 
-            // Recursive DFS call for unvisited neighbors
+
             if (!vertices[neighbor].hadVisited) {
                 if (dfs(neighbor, target, path)) {
-                    return true;  // Return true if a path is found
+                    return true;
                 }
             }
         }
@@ -88,7 +85,6 @@ bool adjList::dfs(int current, int target, std::vector<std::string>& path) {
 
 
 bool adjList::bfs(int start, int target, std::vector<std::string>& path) {
-    resetVertices();
     std::queue<std::vector<int>> q;
 
     q.push({start});
@@ -117,6 +113,7 @@ bool adjList::bfs(int start, int target, std::vector<std::string>& path) {
                 q.push(newPath);
             }
         }
+
     }
 
     return false;
@@ -145,7 +142,7 @@ std::pair<std::vector<int>, std::vector<int>> adjList::getDistancesAndParents(in
     return {distances, parents};
 }
 
-// Function to find and return the longest ladder in the dictionary
+
 void adjList::findAndPrintLongestLadder() {
     std::vector<std::string> longestLadder;
     int longestLength = 0;
@@ -213,7 +210,7 @@ void adjList::findConnectedComponents() {
     for (int i = 0; i < vertices.size(); ++i) {
         if (!visited[i]) {
             ++numComponents; // Increment the number of connected components
-            std::vector<std::string> componentWords; // Store the words of this component
+            std::vector<std::string> componentWords;
 
             // Explore the component and collect its words
             dfsCollectComponentWords(i, visited, componentWords);
