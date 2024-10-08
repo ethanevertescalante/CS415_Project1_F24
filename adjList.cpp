@@ -176,10 +176,11 @@ void adjList::findAndPrintLongestLadder() {
             longestLadder = ladder;
         }
     }
+    std::ofstream longLadder("longest_Ladder.txt");
+    longLadder << "The longest ladder has " << longestLadder.size() << " words:\n";
 
-    std::cout << "The longest ladder has " << longestLadder.size() << " words:\n";
     for (const std::string& word : longestLadder) {
-        std::cout << word << std::endl;
+        longLadder << word << std::endl;
     }
 
 }

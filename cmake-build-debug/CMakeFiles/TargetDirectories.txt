@@ -1,3 +1,3 @@
-C:/Users/Ethan/CLionProjects/CS415_Project1_F24/cmake-build-debug/CMakeFiles/CS415_Project1_F24.dir
-C:/Users/Ethan/CLionProjects/CS415_Project1_F24/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Ethan/CLionProjects/CS415_Project1_F24/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/ethanescalante/CLionProjects/CS415_Project1_F24/cmake-build-debug/CMakeFiles/CS415_Project1_F24.dir
+/Users/ethanescalante/CLionProjects/CS415_Project1_F24/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ethanescalante/CLionProjects/CS415_Project1_F24/cmake-build-debug/CMakeFiles/rebuild_cache.dir

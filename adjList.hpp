@@ -8,15 +8,16 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <fstream>
 #include "Vertex.hpp"
 
 class adjList {
     private:
         std::vector< std::vector<int> > adjList;
-
+        std::vector<Vertex> vertices;
 
     public:
-        std::vector<Vertex> vertices;
+
         int addVertex(const Vertex& vertex);
         void addEdge(int v1, int v2);
         std::string getVertexWord(int index) const;

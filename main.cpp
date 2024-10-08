@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) { // the main function.
     //adjacencyList.printGraph();
     std::cout << std::endl;
 
-    //adjacencyList.findConnectedComponents();
+    adjacencyList.findConnectedComponents();
 
     adjacencyList.resetVertices();
 
@@ -94,36 +94,33 @@ int main(int argc, char *argv[]) { // the main function.
 
 
         std::vector<std::string> path;
-        /*
+
         if (adjacencyList.dfs(startIdx, targetIdx, path)) {
-            std::cout << "The ladder between words " << start << " and " << target << " is: " << std::endl;
+            std::string dfsFileTemp = start + "_" + target +"_" + "dfs";
+            std::ofstream dfsFile(dfsFileTemp);
+            dfsFile << "The ladder between words " << start << " and " << target << " is: " << std::endl;
             for (const auto& word : path) {
-                std::cout << word << std::endl;
+                dfsFile << word << std::endl;
             }
-            std::cout << target << std::endl;
+            dfsFile << target << std::endl;
         } else {
             std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
         }
 
-         */
+
         if (adjacencyList.bfs(startIdx, targetIdx, path)) {
-            std::cout << "The ladder between words " << start << " and " << target << " is: " << std::endl;
+            std::string bfsFileTemp = start + "_" + target +"_" + "bfs";
+            std::ofstream bfsFile(bfsFileTemp);
+            bfsFile << "The ladder between words " << start << " and " << target << " is: " << std::endl;
             for (const auto& word : path) {
-                std::cout << word << std::endl;
+                bfsFile << word << std::endl;
             }
             //std::cout << target << std::endl;
         } else {
             std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
         }
 
-        //TODO:: longest of the shortest ladders in dictionary
-
-
         adjacencyList.resetVertices();
-
-
-
-
 
     }
 

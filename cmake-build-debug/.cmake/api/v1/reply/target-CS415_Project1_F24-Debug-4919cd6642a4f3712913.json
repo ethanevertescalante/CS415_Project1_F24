@@ -2,10 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "CS415_Project1_F24.exe"
-		},
-		{
-			"path" : "CS415_Project1_F24.pdb"
+			"path" : "CS415_Project1_F24"
 		}
 	],
 	"backtrace" : 1,
@@ -38,7 +35,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++1z -fdiagnostics-color=always"
+					"fragment" : "-g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -fcolor-diagnostics"
 				}
 			],
 			"language" : "CXX",
@@ -70,16 +67,12 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
-			},
-			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
-				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "CS415_Project1_F24",
-	"nameOnDisk" : "CS415_Project1_F24.exe",
+	"nameOnDisk" : "CS415_Project1_F24",
 	"paths" : 
 	{
 		"build" : ".",

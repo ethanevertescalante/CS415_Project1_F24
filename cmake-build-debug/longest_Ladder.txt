@@ -1,0 +1,19 @@
+The longest ladder has 18 words:
+atap
+atop
+stop
+shop
+chop
+chip
+chis
+ahis
+anis
+ants
+anti
+inti
+into
+unto
+unco
+unci
+unai
+unau
