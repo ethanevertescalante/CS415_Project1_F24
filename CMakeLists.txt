@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(CS415_Project1_F24
         main.cpp
-        NeighborGraph.cpp
-        NeighborGraph.hpp
         Vertex.hpp
         adjList.cpp
         adjList.hpp)

@@ -66,9 +66,9 @@ int main(int argc, char *argv[]) { // the main function.
 
     readWords(wordStream, adjacencyList); //create vertices and add vertex to adjlist
 
-    //adjacencyList.printGraph();
+    //adjacencyList.printGraph(); //print the graph and what it looks like adjlist list
 
-    adjacencyList.findConnectedComponents();
+    adjacencyList.connectedComponents();
 
     adjacencyList.resetVertices(); //reset on path and visited
 
@@ -87,15 +87,17 @@ int main(int argc, char *argv[]) { // the main function.
             if (adjacencyList.getVertexWord(i) == target) targetIdx = i;
         }
 
-        std::vector<std::string> path;
+        std::vector<std::string> path; //word path for output
+
 
         if(startIdx == -1 && targetIdx == -1){
             std::cout << "No ladder found between " << start << " and " << target << "." << std::endl;
         }
-
-        if (adjacencyList.dfs(startIdx, targetIdx, path)) {
+        int numWordsDfs = 1;
+        if (adjacencyList.dfs(startIdx, targetIdx, path, numWordsDfs)) {
             std::string dfsFileTemp = start + "_" + target +"_" + "dfs";
             std::ofstream dfsFile(dfsFileTemp);
+            dfsFile << numWordsDfs + 1 << std::endl << std::endl;
             dfsFile << "The ladder between words " << start << " and " << target << " is: " << std::endl;
             for (const auto& word : path) {
                 dfsFile << word << std::endl;
@@ -105,22 +107,23 @@ int main(int argc, char *argv[]) { // the main function.
 
         // have to do this b/c auto_flat_bfs (any pair not with the same starting letters) fails if the verticies are not reset to normal
         adjacencyList.resetVertices();
-
-        if (adjacencyList.bfs(startIdx, targetIdx, path)) {
+        int numWordsBfs = 0;
+        if (adjacencyList.bfs(startIdx, targetIdx, path, numWordsBfs)) {
             std::string bfsFileTemp = start + "_" + target +"_" + "bfs";
             std::ofstream bfsFile(bfsFileTemp);
+            bfsFile << numWordsBfs << std::endl << std::endl;
             bfsFile << "The ladder between words " << start << " and " << target << " is: " << std::endl;
             for (const auto& word : path) {
                 bfsFile << word << std::endl;
             }
         }
 
-        //reset for next DFS, makes gawk_geek_dfs not show up!
+        //reset for next DFS, makes gawk_geek_dfs not show up! in my testing
         adjacencyList.resetVertices(); //reset onPath and visited
 
     }
 
-    adjacencyList.findAndPrintLongestLadder();
+    adjacencyList.longestLadder();
 
 
     return 0;

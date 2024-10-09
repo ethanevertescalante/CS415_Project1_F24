@@ -16,21 +16,33 @@ class adjList {
         std::vector< std::vector<int> > adjList;
         std::vector<Vertex> vertices;
 
+        //helper functions
+        std::pair<std::vector<int>, std::vector<int>> longestLadderHelper(int start);
+        int componentHelper(int v, std::vector<std::string>& componentWords);
+
     public:
 
+        //initialization of adjlist
         int addVertex(const Vertex& vertex);
         void addEdge(int v1, int v2);
+
+        //helpful methods
         std::string getVertexWord(int index) const;
-        void printGraph() const;
         int size() const;
-        bool areWordsAdjacent(const std::string &word1, const std::string &word2);
-        void findConnectedComponents();
-        bool dfs(int current, int target, std::vector<std::string>& path);
         void resetVertices();
-        void findAndPrintLongestLadder();
-        bool bfs(int start, int target, std::vector<std::string>& path);
-        std::pair<std::vector<int>, std::vector<int>> getDistancesAndParents(int start);
-        int dfsCollectComponentWords(int v, std::vector<bool>& visited, std::vector<std::string>& componentWords);
+        bool areWordsAdjacent(const std::string &word1, const std::string &word2);
+
+        //just to check the graph looks okay
+        void printGraph() const;
+
+        //main methods for project
+        void connectedComponents();
+        bool dfs(int start, int target, std::vector<std::string>& path, int& numWords);
+        bool bfs(int start, int target, std::vector<std::string>& path, int& numWords);
+        void longestLadder();
+
+
+
 };
 
 

@@ -15,7 +15,7 @@ class Vertex {
         std::string word;
         bool onPath;
         bool hadVisited;
-        int componentId; //-1 means uninitialized, I will start at 1 to avoid confusion
+        int componentId; //-1 means uninitialized, I will start at 1 to avoid confusion about # of components
 
         Vertex(std::string word) : word(word), onPath(false), hadVisited(false), componentId(-1) {} //initialization (constructor)
 };
